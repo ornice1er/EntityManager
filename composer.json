@@ -1,0 +1,33 @@
+{
+    "name": "usthenet/entitymanager",
+    "description": "standard de gestion multi entit\u0000 avec tous les cruds en vue comme en api",
+    "autoload": {
+        "psr-4": {
+            "Usthenet\\Entitymanager\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ornice houssou",
+            "email": "ornihouss1@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "laravelcollective/html": "^6.2"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Usthenet\\EntityManager\\EntityManagerProvider"
+            ]
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://localhost/packages.json"
+        }
+    ]
+    
+}
