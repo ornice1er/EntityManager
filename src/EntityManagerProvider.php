@@ -28,6 +28,8 @@ class EntityManagerProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/views', 'entitymanager');
         $this->publishes([
             __DIR__.'/views' => base_path('resources/views/usthenet/entitymanager'),
-        ]);
+            __DIR__.'/migrations' => base_path('database/migrations'),
+            __DIR__.'/Controllers' => app_path('Http/Controllers'),       
+            __DIR__.'/Models' => app_path('Http/Models')       ]);
     }
 }
