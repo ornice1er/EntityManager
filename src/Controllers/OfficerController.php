@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Usthenet\EntityManager\Models\Officer;
+use Usthenet\EntityManager\Models\Unity;
 use Illuminate\Http\Request;
-use Usthenet\EntityManager\Models\Entity;
 
-class EntityController extends Controller
+class OfficerController extends Controller
 {
-   /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $entities=Entity::all();
-        return view('entity.index', compact('entities'));
+        $officers=Officer::all();
+        return view('officer.index', compact('officers'));
     }
 
     /**
@@ -25,9 +26,9 @@ class EntityController extends Controller
      */
     public function create()
     {
-        $type_entities=TypeEntity::all();
+        $unities=Unity::all();
 
-        return view('entity.create',compact('type_entities'));
+        return view('officer.create',compact('unities'));
 
     }
 
@@ -40,9 +41,9 @@ class EntityController extends Controller
     public function store(Request $request)
     {
         $datas=$request->all();
-        $datas['slug']=Str::slug($request->name);
-        $entity=Entity::create($datas);
-        return redirect()->route('entities.show',$entity->id)->with('success',"Une ressource créée avec succès");
+        $datas['birthday']=date_create($request->birthday);
+        $officer=Officer::create($datas);
+        return redirect()->route('officers.show',$officer->id)->with('success',"Une ressource créée avec succès");
 
     }
 
@@ -55,8 +56,8 @@ class EntityController extends Controller
     public function show($id)
     {
 
-        $entity=Entity::find($id);
-        return view('entity.show',compact('entity'));
+        $officer=Officer::find($id);
+        return view('officer.show',compact('officer'));
 
     }
 
@@ -68,9 +69,9 @@ class EntityController extends Controller
      */
     public function edit($id)
     {
-        $entity=Entity::find($id);
-        $type_entities=TypeEntity::all();
-        return view('entity.edit',compact(['entity','type_entities']));
+        $officer=Officer::find($id);
+        $unities=Unity::all();
+        return view('officer.edit',compact(['officer','unities']));
     }
 
     /**
@@ -83,9 +84,9 @@ class EntityController extends Controller
     public function update(Request $request, $id)
     {
         $datas=$request->all();
-        $datas['slug']=Str::slug($request->name);
-        $entity=Entity::find($id)->update($datas);
-        return redirect()->route('entities.show',$id)->with('success',"Une ressource modifiée avec succès");
+        $datas['birthday']=date_create($request->birthday);
+        $officer=Officer::find($id)->update($datas);
+        return redirect()->route('officers.show',$id)->with('success',"Une ressource modifiée avec succès");
     }
 
     /**
@@ -96,12 +97,14 @@ class EntityController extends Controller
      */
     public function destroy($id)
     {
-        $entity=Entity::find($id);
-        
-        if ($entity->unities->count()==0) {
-            $entity->delete();
+        $officer=Officer::find($id);
+        $officer->delete();
 
-           return redirect()->route('entities.index')->with('success',"Une ressource supprimée avec succès");
+        return redirect()->route('officers.index')->with('success',"Une ressource supprimée avec succès");
+        if ($officer->unities->count()==0) {
+            $officer->delete();
+
+           return redirect()->route('officers.index')->with('success',"Une ressource supprimée avec succès");
         }else{
             return back()->with('success',"Impossible de supprimer cette ressource! élément parent");
         }

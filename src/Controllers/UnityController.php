@@ -1,11 +1,14 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Usthenet\EntityManager\Models\Unity;
+use Usthenet\EntityManager\Models\TypeUnity;
 use Usthenet\EntityManager\Models\Entity;
+use Usthenet\EntityManager\Models\CategoryUnity;
+use Illuminate\Http\Request;
+use Str;
 
-class EntityController extends Controller
+class UnityController extends Controller
 {
    /**
      * Display a listing of the resource.
@@ -14,8 +17,8 @@ class EntityController extends Controller
      */
     public function index()
     {
-        $entities=Entity::all();
-        return view('entity.index', compact('entities'));
+        $unities=Unity::all();
+        return view('unity.index', compact('unities'));
     }
 
     /**
@@ -25,9 +28,11 @@ class EntityController extends Controller
      */
     public function create()
     {
-        $type_entities=TypeEntity::all();
+        $type_unities=TypeUnity::all();
+        $entities=Entity::all();
+        $category_unities=CategoryUnity::all();
 
-        return view('entity.create',compact('type_entities'));
+        return view('unity.create',compact(['type_unities','entities','category_unities']));
 
     }
 
@@ -41,8 +46,8 @@ class EntityController extends Controller
     {
         $datas=$request->all();
         $datas['slug']=Str::slug($request->name);
-        $entity=Entity::create($datas);
-        return redirect()->route('entities.show',$entity->id)->with('success',"Une ressource créée avec succès");
+        $unity=Unity::create($datas);
+        return redirect()->route('unities.show',$unity->id)->with('success',"Une ressource créée avec succès");
 
     }
 
@@ -55,8 +60,8 @@ class EntityController extends Controller
     public function show($id)
     {
 
-        $entity=Entity::find($id);
-        return view('entity.show',compact('entity'));
+        $unity=Unity::find($id);
+        return view('unity.show',compact('unity'));
 
     }
 
@@ -68,9 +73,11 @@ class EntityController extends Controller
      */
     public function edit($id)
     {
-        $entity=Entity::find($id);
-        $type_entities=TypeEntity::all();
-        return view('entity.edit',compact(['entity','type_entities']));
+        $type_unities=TypeUnity::all();
+        $entities=Entity::all();
+        $category_unities=CategoryUnity::all();
+        $unity=Unity::find($id);
+        return view('unity.edit',compact(['unity','type_unities','entities','category_unities']));
     }
 
     /**
@@ -84,8 +91,8 @@ class EntityController extends Controller
     {
         $datas=$request->all();
         $datas['slug']=Str::slug($request->name);
-        $entity=Entity::find($id)->update($datas);
-        return redirect()->route('entities.show',$id)->with('success',"Une ressource modifiée avec succès");
+        $unity=Unity::find($id)->update($datas);
+        return redirect()->route('unities.show',$id)->with('success',"Une ressource modifiée avec succès");
     }
 
     /**
@@ -96,12 +103,14 @@ class EntityController extends Controller
      */
     public function destroy($id)
     {
-        $entity=Entity::find($id);
-        
-        if ($entity->unities->count()==0) {
-            $entity->delete();
+        $unity=Unity::find($id);
+       
 
-           return redirect()->route('entities.index')->with('success',"Une ressource supprimée avec succès");
+       
+        if ($unity->officers->count()==0) {
+            $unity->delete();
+
+           return redirect()->route('unities.index')->with('success',"Une ressource supprimée avec succès");
         }else{
             return back()->with('success',"Impossible de supprimer cette ressource! élément parent");
         }
