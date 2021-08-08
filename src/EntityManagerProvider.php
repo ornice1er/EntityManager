@@ -30,7 +30,7 @@ class EntityManagerProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
         $this->loadFactoriesFrom(__DIR__.'/factories');
         $this->loadMigrationsFrom(__DIR__.'/migrations');
         $this->loadViewsFrom(__DIR__.'/views', 'entitymanager');
