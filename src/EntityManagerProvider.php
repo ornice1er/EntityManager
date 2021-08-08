@@ -41,7 +41,7 @@ class EntityManagerProvider extends ServiceProvider
             __DIR__.'/seeders' => base_path('database/seeders'),
             __DIR__.'/Controllers' => app_path('Http/Controllers'),       
             __DIR__.'/Models' => app_path('Models'),       
-            __DIR__.'/routes.php' => base_path('routes')       
+            __DIR__.'/routes' => base_path('routes')       
         
         ]);
     }
