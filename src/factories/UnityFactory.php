@@ -1,5 +1,5 @@
 <?php
-namespace Database\Factoriess;
+namespace Database\Factories;
 use App\Models\Unity;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
