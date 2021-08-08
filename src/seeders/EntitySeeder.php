@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Usthenet\EntityManager\Models\Entity;
+use App\Models\Entity;
 use Illuminate\Support\Str;
 class EntitySeeder extends Seeder
 {
